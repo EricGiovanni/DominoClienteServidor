@@ -39,4 +39,8 @@ public class Jugador {
         return this.fichas;
     }
 
+    public void agregaFicha(Ficha f) {
+        this.fichas.add(f);
+    }
+
 }

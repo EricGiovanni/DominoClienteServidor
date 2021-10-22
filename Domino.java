@@ -73,6 +73,24 @@ public class Domino {
         return this.jugador2;
     }
 
+    public void DarFichaJ1() {
+        if (this.fichasRestantes.size() != 0) {
+            this.jugador1.agregaFicha(this.fichasRestantes.remove(0));
+        }
+    }
+
+    public void DarFichaJ2() {
+        if (this.fichasRestantes.size() != 0) {
+            this.jugador2.agregaFicha(this.fichasRestantes.remove(0));
+        }
+    }
+
+    public boolean coincide(Ficha c) {
+        boolean coincide = false;
+        return this.fichasRestantes.get(0).coincide(c)
+                || this.fichasRestantes.get(this.fichasRestantes.size() - 1).coincide(c);
+    }
+
     /**
      * Método que devuelve la representación en cadena de todo el domino
      * 

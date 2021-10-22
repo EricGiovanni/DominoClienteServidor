@@ -33,7 +33,7 @@ public class Servidor {
 
     public static String mostrarMenu(Domino d) {
         String s = "Servidor: \n";
-        s += "Si desea salir presione -1\n Si desea comer presione -2\n";
+        s += "Si desea salir presione -1\nSi desea comer presione -2\n";
         s += d.getJugador2().toString();
         return s;
     }
@@ -41,12 +41,31 @@ public class Servidor {
     public static void solicitaOperacion(int op, Socket cn, ServerSocket serv, DataInputStream entrada, Domino d) {
         try {
             int suma = 0;
-            int resta = 0;
-            int mult = 1;
             if (op == -1) {
                 serv.close();
             } else if (op == -2) {
+                d.DarFichaJ2();
+                DataOutputStream respuestaNS = new DataOutputStream(cn.getOutputStream());
+                String menucitoNS = mostrarMenu(d);
+                respuestaNS.writeUTF(menucitoNS);
 
+                // Leemos la opcion de la operacion que quiere hacer el usuario
+                String operacionDeseadaNS = (String) entrada.readUTF();
+                System.out.println("Esto es lo que quiere el cliente: " + operacionDeseadaNS);
+
+                solicitaOperacion(Integer.parseInt(operacionDeseadaNS), cn, serv, entrada, d);
+            } else if (op > d.getJugador2().getFichas().size()) {
+                System.out.println("No existe esa ficha");
+                String menucito = mostrarMenu(d);
+                DataOutputStream respuesta = new DataOutputStream(cn.getOutputStream());
+                respuesta.writeUTF(menucito);
+                respuesta.writeUTF(menucito);
+
+                // Leemos la opcion de la operacion que quiere hacer el usuario
+                int operacionDeseada = (int) entrada.readInt();
+                System.out.println("Esto es lo que quiere el cliente: " + operacionDeseada);
+
+                solicitaOperacion(operacionDeseada, cn, serv, entrada, d);
             } else {
                 // Le decimos al cliente que meta el primer valor de la op
                 DataOutputStream pdSuma = new DataOutputStream(cn.getOutputStream());

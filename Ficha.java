@@ -55,6 +55,10 @@ public class Ficha {
         this.valor2 = aux;
     }
 
+    public boolean coincide(Ficha f) {
+        return true;
+    }
+
     /**
      * Método que devuelve la representación en cadena con el valor 1 a la derecha y
      * el valor 2 a la izquierda

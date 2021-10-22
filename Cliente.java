@@ -19,12 +19,10 @@ public class Cliente {
 
             DataOutputStream mensaje = new DataOutputStream(cliente.getOutputStream());
             mensaje.writeUTF(nombre);
-            /*** LEEMOS ***/
             // Aqui el cliente lee el menu de operaciones
             DataInputStream entrada = new DataInputStream(cliente.getInputStream());
             String mensaje2 = entrada.readUTF();
             System.out.println(mensaje2);
-            /**** ESCRIBIMOS ****/
             // seleccionamos la operacion deseada y decimos al servidor que opcion queremos
             opcion = teclado.nextInt();
             mensaje.writeInt(opcion);
@@ -43,61 +41,57 @@ public class Cliente {
         int val2 = 0;
         try {
             System.out.println("La opcion actual es:" + opcion);
-            if (opcion == 4) {
+            if (opcion == -1) {
                 cliente.close();
                 System.out.println("Conexion cerrada");
             } else {
-                // Hacemos una suma
-                if (opcion == 1) {
-                    /**** LEEMOS ***/
-                    // Aqui el cliente lee en su terminal que se le solicita primer digito
-                    DataInputStream entradaPDS = new DataInputStream(cliente.getInputStream());
-                    String mensajeDeSolicitarPDS = (String) entradaPDS.readUTF();
-                    System.out.println(mensajeDeSolicitarPDS);
 
-                    /**** ESCRIBIMOS ****/
-                    // Escribimos el primer valor de la operacion
-                    val1 = teclado.nextInt();
-                    mensaje.writeInt(val1);
+                // Aqui el cliente lee en su terminal que se le solicita primer digito
+                DataInputStream entradaPDS = new DataInputStream(cliente.getInputStream());
+                String mensajeDeSolicitarPDS = (String) entradaPDS.readUTF();
+                System.out.println(mensajeDeSolicitarPDS);
 
-                    /**** LEEMOS ***/
-                    // Aqui el cliente lee en su terminal que se le solicita segundo digito
-                    DataInputStream entradaSDS = new DataInputStream(cliente.getInputStream());
-                    String mensajeDeSolicitarSDS = entradaSDS.readUTF();
-                    System.out.println(mensajeDeSolicitarSDS);
+                /**** ESCRIBIMOS ****/
+                // Escribimos el primer valor de la operacion
+                val1 = teclado.nextInt();
+                mensaje.writeInt(val1);
 
-                    /**** ESCRIBIMOS ****/
-                    // Escribimos el segundo valor de la operacion
-                    val2 = teclado.nextInt();
-                    mensaje.writeInt(val2);
+                /**** LEEMOS ***/
+                // Aqui el cliente lee en su terminal que se le solicita segundo digito
+                DataInputStream entradaSDS = new DataInputStream(cliente.getInputStream());
+                String mensajeDeSolicitarSDS = entradaSDS.readUTF();
+                System.out.println(mensajeDeSolicitarSDS);
 
-                    /**** LEEMOS ***/
-                    // El cliente lee el resulta de su operacion
-                    DataInputStream entrada4 = new DataInputStream(cliente.getInputStream());
-                    String respSuma = (String) entrada4.readUTF();
-                    System.out.println(respSuma);
+                /**** ESCRIBIMOS ****/
+                // Escribimos el segundo valor de la operacion
+                val2 = teclado.nextInt();
+                mensaje.writeInt(val2);
 
-                    // VOLVEMOS A CARGAR DATOS
-                    /***** ESCRIBIMOS ****/
-                    // Mandamos saludo al servidor
-                    DataOutputStream mensajeNS = new DataOutputStream(cliente.getOutputStream());
-                    mensajeNS.writeUTF("Hola servidor");
+                /**** LEEMOS ***/
+                // El cliente lee el resulta de su operacion
+                DataInputStream entrada4 = new DataInputStream(cliente.getInputStream());
+                String respSuma = (String) entrada4.readUTF();
+                System.out.println(respSuma);
 
-                    /*** LEEMOS ***/
-                    // Aqui el cliente lee el menu de operaciones
-                    DataInputStream entradaNS = new DataInputStream(cliente.getInputStream());
-                    String mensaje2NS = (String) entradaNS.readUTF();
-                    System.out.println(mensaje2NS);
+                // VOLVEMOS A CARGAR DATOS
+                /***** ESCRIBIMOS ****/
+                // Mandamos saludo al servidor
+                DataOutputStream mensajeNS = new DataOutputStream(cliente.getOutputStream());
+                mensajeNS.writeUTF("Hola servidor");
 
-                    /**** ESCRIBIMOS ****/
-                    // seleccionamos la operacion deseada y decimos al servidor que opcion queremos
-                    int op = teclado.nextInt();
-                    mensaje.writeInt(op);
+                /*** LEEMOS ***/
+                // Aqui el cliente lee el menu de operaciones
+                DataInputStream entradaNS = new DataInputStream(cliente.getInputStream());
+                String mensaje2NS = (String) entradaNS.readUTF();
+                System.out.println(mensaje2NS);
 
-                    hazOp(op, cliente, mensajeNS);
-                }
+                /**** ESCRIBIMOS ****/
+                // seleccionamos la operacion deseada y decimos al servidor que opcion queremos
+                int op = teclado.nextInt();
+                mensaje.writeInt(op);
+
+                hazOp(op, cliente, mensajeNS);
             }
-
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
